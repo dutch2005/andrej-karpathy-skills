@@ -125,9 +125,46 @@ echo "" >> CLAUDE.md
 curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
-## Using with Cursor
+## Using with Other Tools
+
+### Cursor
 
 This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
+
+### Kilo
+
+[Kilo](https://kilo.ai) reads `AGENTS.md` at the project root as its primary instruction file and supports additional rules under `.kilo/rules/*.md`.
+
+**Option A: AGENTS.md (per-project) — automatic**
+
+Clone or copy [`AGENTS.md`](AGENTS.md) into the target project root. Kilo loads it automatically.
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+**Option B: Kilo rules (auto-loaded)**
+
+The rule file [`.kilo/rules/karpathy-guidelines.md`](.kilo/rules/karpathy-guidelines.md) is committed in this repository. For another project, copy the whole `.kilo/` directory or just the rules file:
+
+```bash
+mkdir -p .kilo/rules
+curl -o .kilo/rules/karpathy-guidelines.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/.kilo/rules/karpathy-guidelines.md
+```
+
+Kilo auto-loads all `.md` files under `.kilo/rules/` — no extra configuration needed.
+
+### OpenAI Codex CLI
+
+[OpenAI Codex CLI](https://github.com/openai/codex) reads `AGENTS.md` at the project root.
+
+**Per-project setup:**
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+Codex CLI picks up `AGENTS.md` automatically when you open the project.
 
 ## Key Insight
 
