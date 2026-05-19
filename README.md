@@ -98,7 +98,11 @@ Strong success criteria let the LLM loop independently. Weak criteria ("make it 
 
 ## Install
 
-**Option A: Claude Code Plugin (recommended)**
+These guidelines are available in formats for multiple AI coding tools.
+
+### Claude Code
+
+**Option A: Plugin (recommended)**
 
 From within Claude Code, first add the marketplace:
 ```
@@ -125,9 +129,59 @@ echo "" >> CLAUDE.md
 curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
-## Using with Cursor
+### Kilo
 
-This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
+Kilo reads `AGENTS.md` at project root and supports a rules directory at `.kilo/rules/*.md`.
+
+**Using AGENTS.md (recommended):**
+
+Download the cross-tool standard file:
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+Or if your project already has an `AGENTS.md`, append:
+
+```bash
+echo "" >> AGENTS.md
+curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md >> AGENTS.md
+```
+
+**Using the rules directory:**
+
+```bash
+mkdir -p .kilo/rules
+curl -o .kilo/rules/karpathy-guidelines.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/.kilo/rules/karpathy-guidelines.md
+```
+
+Then add to your `kilo.jsonc`:
+
+```jsonc
+{
+  "instructions": [".kilo/rules/karpathy-guidelines.md"]
+}
+```
+
+### OpenAI Codex CLI
+
+Codex CLI reads `AGENTS.md` at project root as its primary instruction file. Optionally, it also reads a global `~/.codex/AGENTS.md`.
+
+**Per-project (recommended):**
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+**Global (all projects):**
+
+```bash
+curl -o ~/.codex/AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+### Cursor
+
+This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and cross-tool compatibility.
 
 ## Key Insight
 
@@ -148,7 +202,7 @@ These guidelines are working if you see:
 
 ## Customization
 
-These guidelines are designed to be merged with project-specific instructions. Add them to your existing `CLAUDE.md` or create a new one.
+These guidelines are designed to be merged with project-specific instructions. Add them to your existing `CLAUDE.md`, `AGENTS.md`, or create a new one.
 
 For project-specific rules, add sections like:
 
