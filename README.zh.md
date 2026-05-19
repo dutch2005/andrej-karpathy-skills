@@ -1,10 +1,10 @@
-# 受 Karpathy 启发的 Claude Code 指南
+# 受 Karpathy 启发的 AI 编码指南
 
 > 查看我的新项目 [Multica](https://github.com/multica-ai/multica) —— 一个用于运行和管理编码智能体的开源平台，支持可复用的技能。
 >
 > 在 X 上关注我：[https://x.com/jiayuan_jy](https://x.com/jiayuan_jy)
 
-一个单一的 `CLAUDE.md` 文件，用于改善 Claude Code 的行为，源自 [Andrej Karpathy 的观察](https://x.com/karpathy/status/2015883857489522876) 关于 LLM 编码陷阱的总结。
+AI 编码代理的行为指南。提供 `CLAUDE.md`、`AGENTS.md`、`.cursor/rules/`、`.kilo/rules/` 和可重用的 `SKILL.md` 格式。
 
 [English](./README.md) | 简体中文
 
@@ -98,9 +98,13 @@ LLM 经常默默选择一种解释然后执行。这个原则强制明确推理�
 
 ## 安装
 
-**选项 A：Claude Code 插件（推荐）**
+本指南提供多种 AI 编码工具的格式。
 
-在 Claude Code 中，首先添加插件市场：
+### Claude Code
+
+**选项 A：插件（推荐）**
+
+在 Claude Code 中，先添加市场：
 ```
 /plugin marketplace add forrestchang/andrej-karpathy-skills
 ```
@@ -110,7 +114,7 @@ LLM 经常默默选择一种解释然后执行。这个原则强制明确推理�
 /plugin install andrej-karpathy-skills@karpathy-skills
 ```
 
-这会将指南安装为 Claude Code 插件，使其在你所有项目中可用。
+这将安装为 Claude Code 插件，所有项目均可使用。
 
 **选项 B：CLAUDE.md（按项目）**
 
@@ -125,47 +129,94 @@ echo "" >> CLAUDE.md
 curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
-## 在 Cursor 中使用
+### Kilo
 
-本仓库包含一个已提交的 Cursor 项目规则 ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc))，因此在 Cursor 中打开项目时同样适用这些指南。详情请参见 **[CURSOR.md](CURSOR.md)**，包括如何在其他项目中使用该规则，以及它与 Claude Code 的关系。
+Kilo 读取项目根目录的 `AGENTS.md`，并支持 `.kilo/rules/*.md` 规则目录。
 
-## 核心洞察
+**使用 AGENTS.md（推荐）：**
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+或追加到已有 AGENTS.md：
+```bash
+echo "" >> AGENTS.md
+curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md >> AGENTS.md
+```
+
+**使用规则目录：**
+
+```bash
+mkdir -p .kilo/rules
+curl -o .kilo/rules/karpathy-guidelines.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/.kilo/rules/karpathy-guidelines.md
+```
+
+然后在 `kilo.jsonc` 中添加：
+
+```jsonc
+{
+  "instructions": [".kilo/rules/karpathy-guidelines.md"]
+}
+```
+
+### OpenAI Codex CLI
+
+Codex CLI 读取项目根目录的 `AGENTS.md` 作为主要指令文件，也可读取全局 `~/.codex/AGENTS.md`。
+
+**按项目（推荐）：**
+
+```bash
+curl -o AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+**全局安装（所有项目）：**
+
+```bash
+curl -o ~/.codex/AGENTS.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/AGENTS.md
+```
+
+### Cursor
+
+本仓库包含预配置的 Cursor 项目规则文件（[`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)），打开项目时指南自动生效。详见 **[CURSOR.md](CURSOR.md)**。
+
+## 关键洞见
 
 来自 Andrej：
 
-> "LLM 非常擅长循环执行直到达成特定目标……不要告诉它该做什么，给它成功标准，然后看着它完成。"
+> "LLM 非常擅长在达到特定目标之前不断循环……不要告诉它要做什么，给它成功标准，然后看它自己完成。"
 
-"目标驱动执行"原则正是捕捉了这一点：将指令式指令转化为带有验证循环的声明式目标。
+"目标驱动执行"原则正是捕捉了这一点：将命令式指令转化为带有验证循环的声明式目标。
 
-## 如何判断它在起作用
+## 如何判断效果
 
-如果你看到以下情况，说明这些指南正在发挥作用：
+这些指南生效的表现：
 
-- **diff 中不必要的改动更少** —— 只有请求的改动出现
-- **因过度复杂而导致的重写更少** —— 代码第一次就写得简洁
-- **澄清问题在实现之前提出** —— 而不是在犯错之后
-- **干净、精简的 PR** —— 没有顺带的重构或"改进"
+- **差异中不必要的更改减少** — 只出现请求的更改
+- **因过度复杂而重写的次数减少** — 代码首次编写即简洁
+- **实施前提出澄清问题** — 而非在错误之后
+- **清洁、最小化的 PR** — 没有附带重构或"改进"
 
-## 定制
+## 自定义
 
-这些指南设计用于与项目特定指令合并。将它们添加到你现有的 `CLAUDE.md` 或创建一个新的。
+本指南设计为可与项目特定指令合并。将其添加到您现有的 `CLAUDE.md`、`AGENTS.md` 或创建新文件。
 
-对于项目特定规则，添加如下章节：
+项目特定规则示例：
 
 ```markdown
 ## 项目特定指南
 
 - 使用 TypeScript 严格模式
 - 所有 API 端点必须有测试
-- 遵循 `src/utils/errors.ts` 中现有的错误处理模式
+- 遵循 `src/utils/errors.ts` 中的现有错误处理模式
 ```
 
 ## 权衡说明
 
-这些指南倾向于**谨慎而非速度**。对于琐碎的任务（简单的拼写错误修复、显而易见的一行修改），请自行判断 —— 并非每个改动都需要完整的严谨流程。
+本指南偏向于**谨慎而非速度**。对于琐碎任务（简单的打字错误修复、显而易见的一行程序），请自行判断——并非每次更改都需要完全严谨。
 
-目标是减少非琐碎工作中的代价高昂的错误，而不是拖慢简单任务。
+目标是在非重要工作中减少代价高昂的错误，而不是拖慢简单任务的速度。
 
-## 许可
+## 许可证
 
 MIT
